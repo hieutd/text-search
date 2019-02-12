@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'commons-io:commons-io:2.6'
+
+    testImplementation 'junit:junit:4.12'
+}
+
+mainClassName = 'text.search.App'
