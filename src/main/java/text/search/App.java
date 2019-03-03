@@ -5,10 +5,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
 
@@ -39,17 +36,9 @@ public class App {
         System.exit(0);
       } else {
         Map<String, Integer> results = indexedContent.search(textToSearch);
-        List<Map.Entry<String, Integer>> entries = new ArrayList<>(results.entrySet());
-        entries.sort((Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> {
-              if (o1.getValue().equals(o2.getValue())) return 0;
-              return o1.getValue() < o2.getValue() ? 1 : -1;
-            }
-        );
-
-        for (int i = 0; i < ((entries.size() < 10) ? entries.size() : 10); i++) {
-          Map.Entry<String, Integer> entry = entries.get(i);
-          System.out.println("file " + entry.getKey() + " match " + entry.getValue() + " %");
-        }
+        results.entrySet().stream().sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue).reversed())
+            .filter((e) -> e.getValue() > 0).limit(10)
+            .forEach((entry) -> System.out.println("file " + entry.getKey() + " match " + entry.getValue() + " %"));
       }
     }
 
