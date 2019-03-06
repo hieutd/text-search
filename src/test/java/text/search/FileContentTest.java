@@ -138,4 +138,15 @@ public class FileContentTest {
         assertThat(result.size(), is(1));
         assertThat(result.get(path), is(100));
     }
+
+    @Test
+    public void shouldReturn100ForDuplicateSearchWord() {
+        String searchTerm = "line line";
+        Searchable target = new FileContent(content, path);
+        Map<String, Integer> expected = new HashMap<>();
+        expected.put(path, 100);
+        Map<String, Integer> result = target.search(searchTerm);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(path), is(100));
+    }
 }

@@ -37,7 +37,7 @@ public class App {
       } else {
         Map<String, Integer> results = indexedContent.search(textToSearch);
         results.entrySet().stream().sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue).reversed())
-            .filter((e) -> e.getValue() > 0).limit(10)
+            .filter(e -> e.getValue() > 0).limit(10)
             .forEach((entry) -> System.out.println("file " + entry.getKey() + " match " + entry.getValue() + " %"));
       }
     }

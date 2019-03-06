@@ -1,6 +1,7 @@
 package text.search;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FileContent implements Searchable {
 
@@ -27,16 +28,12 @@ public class FileContent implements Searchable {
     return lineOfText.replaceAll("\\p{Punct}+", " ");
   }
 
+  @Override
   public Map<String, Integer> search(String searchTerm) {
-    String[] words = searchTerm.split("\\s+");
-    Set<String> matched = new HashSet<>();
-    for (String word : words) {
-      if (matched.size() < words.length && wordIndex.contains(word)) {
-        matched.add(word);
-      }
-    }
+    Set<String> words = new HashSet<>(Arrays.asList(searchTerm.split("\\s+")));
+    Set<String> matched = wordIndex.stream().filter(words::contains).collect(Collectors.toSet());;
     Map<String, Integer> result = new HashMap<>();
-    result.put(path, Math.round((float) matched.size() / words.length * 100));
+    result.put(path, Math.round((float) matched.size() / words.size() * 100));
     return result;
   }
 }
